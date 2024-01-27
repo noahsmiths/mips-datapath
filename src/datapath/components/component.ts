@@ -1,3 +1,3 @@
 export interface Component {
-    dumpData(): { [key: string] : string };
+    trigger(): void;
 }
