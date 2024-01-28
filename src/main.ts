@@ -24,7 +24,7 @@ function handleDiagramMouseOver(event) {
     console.log(activeElement);
 
     if (activeElement !== null && activeElement in dumpables) {
-        details.text(JSON.stringify(dumpables[activeElement].dumpData()));
+        details.text(activeElement + "\n" + JSON.stringify(dumpables[activeElement].dumpData()));
     }
 }
 

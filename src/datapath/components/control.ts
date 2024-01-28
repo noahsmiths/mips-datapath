@@ -65,17 +65,17 @@ export class Control implements Component {
             this.ALUSrcWire.setLow();
             this.regWriteWire.setHigh();
         } else if (isIFormat) {
-            throw new Error("TODO: Implement AluOP's for I-Format instructions. No funct field exists with I-format, so it must be set through the AluOP");
-
-            this.regDstWire.setHigh();
+            this.regDstWire.setLow();
             this.jumpWire.setLow();
             this.branchWire.setLow();
             this.memReadWire.setLow();
             this.memToRegWire.setLow();
-            this.ALUOpWire.setValue(0b10);
+            this.ALUOpWire.setValue(0b00);
             this.memWriteWire.setLow();
             this.ALUSrcWire.setHigh();
             this.regWriteWire.setHigh();
+
+            console.error("TODO: Implement AluOP's for I-Format instructions. No funct field exists with I-format, so it must be set through the AluOP. Currently only supports addi.");
         } else if (isBeq) {
             this.jumpWire.setLow();
             this.branchWire.setHigh();

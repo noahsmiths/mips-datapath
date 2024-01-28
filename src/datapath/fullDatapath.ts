@@ -17,12 +17,19 @@ import { TwoToOneMux } from "./components/twoToOneMux";
 import { Wire } from "./components/wire";
 
 const registerFile = new Array(32).fill(0);
-registerFile[7] = 5;
+// registerFile[7] = 5;
+// 
+// const instructions = {
+//     0x4000: 0x00E02020,
+//     0x4004: 0x00842820,
+//     0x4008: 0x00A52820
+// }
 
 const instructions = {
-    0x4000: 0x00E02020,
-    0x4004: 0x00842820,
-    0x4008: 0x00A52820
+    0x4000: 0x20070005,
+    0x4004: 0x20060007,
+    // 0x4008: 0x00C72820,
+    0x4008: 0x00C72822
 }
 
 export function buildDatapath() {
