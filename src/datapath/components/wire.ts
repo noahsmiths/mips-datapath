@@ -8,7 +8,7 @@ import { Dumpable } from "./dumpable";
 //     getBits(lower: number, upper: number): number;
 // }
 
-export class Wire {
+export class Wire implements Dumpable {
     private maxValue: number;
 
     constructor(
