@@ -1,9 +1,41 @@
-import $ from 'jQuery';
+import $ from 'jquery';
+import { buildDatapath } from './datapath/fullDatapath';
+import overlay from './datapath-overlay.json';
 
-import { Wire } from './datapath/components/wire';
-import { binaryToUnsigned32BitNumber, numberToBinary } from './datapath/utils/convert';
+const { dumpables, runCycle } = buildDatapath();
 
-const w = new Wire(32);
-w.setValue(binaryToUnsigned32BitNumber("10110011100010110011010110000000"));
+const runCycleBtn = $("#run-cycle-button");
 
-console.log(numberToBinary(w.getBits(26, 31), 4));
+const details = $("#details");
+const diagram = $("#diagram");
+
+runCycleBtn.on("click", () => {
+    runCycle();
+});
+diagram.on("mousemove", handleDiagramMouseOver);
+
+function handleDiagramMouseOver(event) {
+    const diagramOffset = diagram.offset()!;
+    const normalizedX = (window.scrollX + event.clientX - diagramOffset.left) / (diagram.width()!);
+    const normalizedY = (window.scrollY + event.clientY - diagramOffset.top) / (diagram.height()!);
+
+    const activeElement = findActiveElement(normalizedX, normalizedY);
+
+    console.log(activeElement);
+
+    if (activeElement !== null && activeElement in dumpables) {
+        details.text(JSON.stringify(dumpables[activeElement].dumpData()));
+    }
+}
+
+function findActiveElement(x: number, y: number): string | null {
+    for (let component in overlay) {
+        for (let bound of overlay[component]) {
+            if (bound.left < x && x < bound.right && bound.top < y && y < bound.bottom) {
+                return component;
+            }
+        }
+    }
+
+    return null;
+}

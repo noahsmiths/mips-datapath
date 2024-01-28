@@ -1,9 +1,8 @@
 import { coerceToUnsigned32BitNumber } from "../utils/convert";
 import { Component } from "./component";
-import { Dumpable } from "./dumpable";
 import { Wire } from "./wire";
 
-export class LeftShifter implements Component, Dumpable {
+export class LeftShifter implements Component {
     constructor(
         private inputWire: Wire,
         private outputWire: Wire,
@@ -15,9 +14,6 @@ export class LeftShifter implements Component, Dumpable {
         const leftShiftedValue = coerceToUnsigned32BitNumber(inputvalue << this.shiftAmount);
 
         this.outputWire.setValue(leftShiftedValue);
-    }
-    dumpData(): { [key: string]: any; } {
-        return {}
     }
 
 }

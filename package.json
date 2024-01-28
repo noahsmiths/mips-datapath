@@ -2,10 +2,10 @@
   "name": "mips-datapath",
   "version": "1.0.0",
   "description": "",
-  "source": "src/index.html",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build"
+    "start": "parcel src/index.html",
+    "start:plotter": "parcel src/plotter/index.html",
+    "build": "parcel build src/index.html"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
+    "@types/jquery": "^3.5.29",
     "jquery": "^3.7.1"
   }
 }

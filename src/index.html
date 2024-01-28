@@ -6,9 +6,22 @@
   <link href="./index.css" rel="stylesheet">
 </head>
 <body>
-  <h1 class="text-3xl font-bold underline" id="test">
-    Hello world!
-  </h1>
+  <div id="app" class="w-full h-screen flex justify-center items-center gap-2 p-2">
+    <div class="w-1/5 h-4/5">
+      <textarea class="w-full h-full p-4 text-center textarea textarea-bordered border-black" spellcheck="false" id="instructions"></textarea>
+      <div class="w-full flex-flow justify-around">
+        <div class="btn" id="run-cycle-button">Run Cycle</div>
+      </div>
+    </div>
+    <div class="w-3/5 h-fit border border-black">
+      <img src="./assets/mips-single-cycle-datapath.png" class="min-w-full" id="diagram"/>
+    </div>
+    <div class="w-1/5 h-1/2 border border-black">
+      <div id="details" class="break-words">
+
+      </div>
+    </div>
+  </div>
   <script type="module" src="main.ts"></script>
 </body>
 </html>

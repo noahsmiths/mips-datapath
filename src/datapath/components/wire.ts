@@ -43,7 +43,7 @@ export class Wire implements Dumpable {
     }
     dumpData(): { [key: string]: any } {
         return {
-            "value": this.value
+            "value": this.getBinary()
         };
     }
 }
