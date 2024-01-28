@@ -1,5 +1,13 @@
-export function numberToBinary(value: number): string {
-    return coerceToUnsigned32BitNumber(value).toString(2);
+export function numberToBinary(value: number, bits?: number): string {
+    let binaryString = coerceToUnsigned32BitNumber(value).toString(2);
+    
+    if (bits) {
+        for (let i = binaryString.length; i <= bits; i++) {
+            binaryString = "0" + binaryString;
+        }
+    }
+
+    return binaryString;
 }
 
 export function binaryToUnsigned32BitNumber(value: string): number {

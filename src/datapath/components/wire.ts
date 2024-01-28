@@ -1,4 +1,4 @@
-import { numberToBinary } from "../utils/convert";
+import { binaryToUnsigned32BitNumber, numberToBinary } from "../utils/convert";
 import { Dumpable } from "./dumpable";
 
 // interface WireSpec extends Dumpable {
@@ -34,9 +34,9 @@ export class Wire implements Dumpable {
         this.value = 0;
     }
     getBits(lower: number, upper: number): number { // Inclusive bounds
-        const leftBound = this.bitSize - (upper + 1);
-        const rightBound = this.bitSize - (lower + 1);
-        return parseInt(numberToBinary(this.value).substring(leftBound, rightBound), 2);
+        const leftBound = this.bitSize - (upper);
+        const rightBound = this.bitSize - (lower - 1);
+        return binaryToUnsigned32BitNumber(numberToBinary(this.value, this.bitSize).substring(leftBound, rightBound));
     }
     dumpData(): { [key: string]: any } {
         return {
