@@ -15,7 +15,7 @@ export class Registers implements Component, Dumpable {
     ) {}
     
     writeValue(): void {
-        const regWrite: boolean = this.regWriteWire.getValue() === 1 ? true : false;
+        const regWrite: boolean = this.regWriteWire.getValue() === 1;
 
         if (regWrite) {
             const writeRegister: number = this.writeRegWire.getValue();
