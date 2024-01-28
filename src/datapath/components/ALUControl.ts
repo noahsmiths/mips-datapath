@@ -1,3 +1,4 @@
+import { numberToBinary } from "../utils/convert";
 import { Component } from "./component";
 import { Wire } from "./wire";
 
@@ -8,9 +9,43 @@ export class ALUControl implements Component {
         private outputWire: Wire,
     ) {}
 
-    // TODO: Implement
     trigger(): void {
-        throw new Error("Method not implemented.");
+        const funct = this.instructionWire.getValue();
+        const ALUOp = this.ALUOpWire.getValue();
+
+        // Codes from https://www.cs.fsu.edu/~hawkes/cda3101lects/chap5/index.html?$$$F5.14.html$$$
+        switch (ALUOp) {
+            case 0b00: // Memory
+                this.outputWire.setValue(0b010);
+                break;
+            case 0b01: // Branch
+                this.outputWire.setValue(0b110);
+                break;
+            case 0b10:
+                // Yucky nested switch, maybe just use a dict here or something idk
+                switch (funct) {
+                    case 0b100000:
+                        this.outputWire.setValue(0b010);
+                        break;
+                    case 0b100010:
+                        this.outputWire.setValue(0b110);
+                        break;
+                    case 0b100100:
+                        this.outputWire.setValue(0b000);
+                        break;
+                    case 0b100101:
+                        this.outputWire.setValue(0b001);
+                        break;
+                    case 0b101010:
+                        this.outputWire.setValue(0b111);
+                        break;
+                    default:
+                        throw new Error(`Invalid funct: ${numberToBinary(funct)} and ALUOp: ${numberToBinary(ALUOp)} combination.`);
+                }
+                break;
+            default:
+                throw new Error(`Invalid ALUOp: ${numberToBinary(ALUOp)}.`);
+        }
     }
 
 }

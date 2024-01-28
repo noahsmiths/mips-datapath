@@ -15,12 +15,12 @@ import { TwoToOneMux } from "./components/twoToOneMux";
 import { Wire } from "./components/wire";
 
 const instructions = {
-    16384: 1234
+    0x4000: 1234
 }
 
 function constructDatapath() {
     // Wires
-    const pcIn = new Wire(32, 16384);
+    const pcIn = new Wire(32, 0x4000);
     const pcOut = new Wire(32);
 
     const pcAdderIn = new Wire(32, 4);
@@ -122,7 +122,7 @@ function constructDatapath() {
 
     const jumpMux = new TwoToOneMux(branchMuxOut, jaOut, controlJump, pcIn);
 
-    const dataMemory = new DataMemory(aluResultOut, regRead2, controlMemRead, controlMemWrite, dataMemoryOut);
+    const dataMemory = new DataMemory(aluResultOut, regRead2, controlMemRead, controlMemWrite, dataMemoryOut, {});
 
     const writebackMux = new TwoToOneMux(aluResultOut, dataMemoryOut, controlMemToReg, writeRegData);
 }

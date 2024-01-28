@@ -8,16 +8,24 @@ export class DataMemory implements Component, Dumpable {
         private writeDataWire: Wire,
         private memReadWire: Wire,
         private memWriteWire: Wire,
-        private readDataWire: Wire,
+        private outputWire: Wire,
         private memory: { [key: number]: number } = {}
     ) {}
 
-    // TODO: Implement
     trigger(): void {
-        throw new Error("Method not implemented.");
+        const address = this.addressWire.getValue();
+        const isMemRead = this.memReadWire.getValue() === 1;
+        const isMemWrite = this.memWriteWire.getValue() === 1;
+
+        if (isMemRead) {
+            const value = this.memory[address] || 0; // Return 0 if memory doesn't contain data at address
+            this.outputWire.setValue(value);
+        } else if (isMemWrite) {
+            this.memory[address] = this.writeDataWire.getValue();
+        }
     }
     dumpData(): { [key: string]: any; } {
-        throw new Error("Method not implemented.");
+        return {...this.memory};
     }
 
 }
