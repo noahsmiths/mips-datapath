@@ -12,6 +12,7 @@ export class DataMemory implements Component, Dumpable {
         private memory: { [key: number]: number } = {}
     ) {}
 
+    // TODO: Implement
     trigger(): void {
         throw new Error("Method not implemented.");
     }

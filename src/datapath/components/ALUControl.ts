@@ -8,6 +8,7 @@ export class ALUControl implements Component {
         private outputWire: Wire,
     ) {}
 
+    // TODO: Implement
     trigger(): void {
         throw new Error("Method not implemented.");
     }

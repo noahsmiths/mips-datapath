@@ -10,6 +10,7 @@ export class ALU implements Component {
         private zeroWire: Wire,
     ) {}
 
+    // TODO: Implement
     trigger(): void {
         throw new Error("Method not implemented.");
     }

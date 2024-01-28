@@ -16,6 +16,7 @@ export class Control implements Component, Dumpable {
         private regWriteWire: Wire,
     ) {}
 
+    // TODO: Implement
     trigger(): void {
         throw new Error("Method not implemented.");
     }
