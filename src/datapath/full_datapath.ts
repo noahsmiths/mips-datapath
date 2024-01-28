@@ -1,5 +1,9 @@
+import { ALU } from "./components/ALU";
+import { ALUControl } from "./components/ALUControl";
+import { And } from "./components/and";
 import { BaseAdder } from "./components/baseAdder";
 import { Control } from "./components/control";
+import { DataMemory } from "./components/dataMemory";
 import { InstructionMemory } from "./components/instructionMemory";
 import { Joiner } from "./components/joiner";
 import { LeftShifter } from "./components/leftShifter";
@@ -33,7 +37,7 @@ function constructDatapath() {
     const imOut5_0 = new Wire(6);
     const imOut25_0_left_shift_2 = new Wire(28);
     const imOut15_0_sign_extended = new Wire(32);
-    const imOut15_0_sign_extended_left_shift_2 = new Wire(30);
+    const imOut15_0_sign_extended_left_shift_2 = new Wire(32);
 
     const jaOut = new Wire(32);
 
@@ -51,6 +55,17 @@ function constructDatapath() {
     const writeRegData = new Wire(32);
     const regRead1 = new Wire(32);
     const regRead2 = new Wire(32);
+
+    const aluControlOut = new Wire(4); // Might be 3 bit?
+    const aluSrcMuxOut = new Wire(32);
+    const aluResultOut = new Wire(32);
+    const aluZeroOut = new Wire(1);
+
+    const branchAdderOut = new Wire(32);
+    const branchAndOut = new Wire(1);
+    const branchMuxOut = new Wire(32);
+
+    const dataMemoryOut = new Wire(32);
     
     // Components
     const pc = new ProgramCounter(pcIn, pcOut);
@@ -96,6 +111,20 @@ function constructDatapath() {
         regRead1,
         regRead2
     );
+
+    const aluControl = new ALUControl(imOut5_0, controlALUOp, aluControlOut);
+    const aluSrcMux = new TwoToOneMux(regRead2, imOut15_0_sign_extended, controlALUSrc, aluSrcMuxOut);
+    const alu = new ALU(regRead1, aluSrcMuxOut, aluControlOut, aluResultOut, aluZeroOut);
+
+    const branchAdder = new BaseAdder(pcAdderOut, imOut15_0_sign_extended_left_shift_2, branchAdderOut);
+    const branchAnd = new And(controlBranch, aluZeroOut, branchAndOut);
+    const branchMux = new TwoToOneMux(pcAdderOut, branchAdderOut, branchAndOut, branchMuxOut);
+
+    const jumpMux = new TwoToOneMux(branchMuxOut, jaOut, controlJump, pcIn);
+
+    const dataMemory = new DataMemory(aluResultOut, regRead2, controlMemRead, controlMemWrite, dataMemoryOut);
+
+    const writebackMux = new TwoToOneMux(aluResultOut, dataMemoryOut, controlMemToReg, writeRegData);
 }
 
 constructDatapath();
