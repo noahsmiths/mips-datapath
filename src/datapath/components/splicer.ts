@@ -1,5 +1,4 @@
 import { Component } from "./component";
-import { Dumpable } from "./dumpable";
 import { Wire } from "./wire";
 
 // Takes bits [lowerBitIndex, upperBitIndex] from inputWire and writes them to outputWire
