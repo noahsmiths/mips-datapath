@@ -34,8 +34,8 @@ export class Wire implements Dumpable {
         this.value = 0;
     }
     getBits(lower: number, upper: number): number { // Inclusive bounds
-        const leftBound = this.bitSize - (upper);
-        const rightBound = this.bitSize - (lower - 1);
+        const leftBound = this.bitSize - (upper + 1);
+        const rightBound = this.bitSize - (lower);
         return binaryToUnsigned32BitNumber(numberToBinary(this.value, this.bitSize).substring(leftBound, rightBound));
     }
     getBinary(): string {
