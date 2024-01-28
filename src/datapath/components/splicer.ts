@@ -3,7 +3,7 @@ import { Dumpable } from "./dumpable";
 import { Wire } from "./wire";
 
 // Takes bits [lowerBitIndex, upperBitIndex] from inputWire and writes them to outputWire
-export class Splicer implements Component, Dumpable {
+export class Splicer implements Component {
     constructor(
         private inputWire: Wire,
         private outputWire: Wire,
@@ -14,9 +14,6 @@ export class Splicer implements Component, Dumpable {
     trigger(): void {
         const selectedBits = this.inputWire.getBits(this.lowerBitIndex, this.upperBitIndex);
         this.outputWire.setValue(selectedBits);
-    }
-    dumpData(): { [key: string]: any; } {
-        return {};
     }
 
 }

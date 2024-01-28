@@ -1,19 +1,19 @@
 import { numberToBinary } from "../utils/convert";
 import { Dumpable } from "./dumpable";
 
-interface WireSpec extends Dumpable {
-    setValue(value: number): void;
-    getValue(): number;
+// interface WireSpec extends Dumpable {
+//     setValue(value: number): void;
+//     getValue(): number;
 
-    getBits(lower: number, upper: number): number;
-}
+//     getBits(lower: number, upper: number): number;
+// }
 
-export class Wire implements WireSpec {
-    private value: number = 0;
+export class Wire {
     private maxValue: number;
 
     constructor(
-        private bitSize: number = 1
+        private bitSize: number = 1,
+        private value: number = 0 // Unsigned values always used in value
     ) {
         this.maxValue = (2 ** this.bitSize) - 1;
     }
