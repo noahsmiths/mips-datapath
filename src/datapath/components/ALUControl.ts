@@ -41,11 +41,11 @@ export class ALUControl implements Component {
                         this.outputWire.setValue(FUNCT_CODES.SLT);
                         break;
                     default:
-                        throw new Error(`Invalid funct: ${numberToBinary(funct)} and ALUOp: ${numberToBinary(ALUOp)} combination.`);
+                        throw new Error(`Invalid funct: ${numberToBinary(funct, 6)} and ALUOp: ${numberToBinary(ALUOp, 2)} combination.`);
                 }
                 break;
             default:
-                throw new Error(`Invalid ALUOp: ${numberToBinary(ALUOp)}.`);
+                throw new Error(`Invalid ALUOp: ${numberToBinary(ALUOp, 2)}.`);
         }
     }
 

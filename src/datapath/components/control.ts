@@ -52,7 +52,7 @@ export class Control implements Component {
                     this.regWriteWire.setHigh();
                     break;
                 default:
-                    throw new Error(`Opcode ${numberToBinary(opcode)} is not valid.`);
+                    throw new Error(`Opcode ${numberToBinary(opcode, 6)} is not valid.`);
             }
         } else if (isRFormat) {
             this.regDstWire.setHigh();
@@ -91,7 +91,7 @@ export class Control implements Component {
             this.memWriteWire.setLow();
             this.regWriteWire.setLow();
         } else {
-            throw new Error(`Opcode ${numberToBinary(opcode)} is not valid.`);
+            throw new Error(`Opcode ${numberToBinary(opcode, 6)} is not valid.`);
         }
     }
 

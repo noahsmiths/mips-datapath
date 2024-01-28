@@ -39,7 +39,7 @@ export class ALU implements Component {
                 this.outputWire.setValue(inputA < inputB ? 1 : 0);
                 break;
             default:
-                throw new Error(`ALU Control Code ${numberToBinary(controlCode)} is invalid.`);
+                throw new Error(`ALU Control Code ${numberToBinary(controlCode, 3)} is invalid.`);
         }
     }
 

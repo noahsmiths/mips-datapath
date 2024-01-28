@@ -1,4 +1,4 @@
-import { binaryToUnsigned32BitNumber, numberToBinary } from "../utils/convert";
+import { binaryToUnsigned32BitNumber } from "../utils/convert";
 import { Component } from "./component";
 import { Wire } from "./wire";
 
@@ -10,7 +10,7 @@ export class SignExtender implements Component {
     ) {}
 
     trigger(): void {
-        let inputBinary = numberToBinary(this.inputWire.getValue());
+        let inputBinary = this.inputWire.getBinary();
 
         for (let i = inputBinary.length; i <= this.outputBitCount; i++) {
             inputBinary = inputBinary.charAt(0) + inputBinary;
