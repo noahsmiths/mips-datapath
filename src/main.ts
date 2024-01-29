@@ -21,10 +21,11 @@ function handleDiagramMouseOver(event) {
 
     const activeElement = findActiveElement(normalizedX, normalizedY);
 
-    console.log(activeElement);
-
     if (activeElement !== null && activeElement in dumpables) {
         details.text(activeElement + "\n" + JSON.stringify(dumpables[activeElement].dumpData()));
+        diagram.css("cursor", "pointer");
+    } else {
+        diagram.css("cursor", "unset");
     }
 }
 
