@@ -1,14 +1,31 @@
 import $ from 'jquery';
 import { buildDatapath } from './datapath/fullDatapath';
 import overlay from './datapath-overlay.json';
+import { assemble } from './datapath/utils/assembler';
 
-const { dumpables, runCycle } = buildDatapath();
+let { dumpables, runCycle } = buildDatapath(0, {});
+
+const instructionsInput = $("#instructions-input");
 
 const runCycleBtn = $("#run-cycle-button");
+const loadBtn = $("#load-button");
 
 const details = $("#details");
 const diagram = $("#diagram");
 
+loadBtn.on("click", () => {
+    try {
+        const beginningOffset = 0x00004000;
+        const assembly = assemble(beginningOffset, (instructionsInput.val() as string).trim());
+        const createdDatapath = buildDatapath(beginningOffset, assembly);
+
+        dumpables = createdDatapath.dumpables;
+        runCycle = createdDatapath.runCycle;
+    } catch (err) {
+        console.error(err);
+        alert("Error when trying to assemble your program. Please make sure you entered valid assembly.");
+    }
+});
 runCycleBtn.on("click", () => {
     runCycle();
 });

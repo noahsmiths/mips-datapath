@@ -8,19 +8,20 @@
 <body>
   <div id="app" class="w-full h-screen flex justify-center items-center gap-2 p-2">
     <div class="w-1/5 h-4/5">
-      <textarea class="w-full h-full p-4 text-center textarea textarea-bordered border-black" spellcheck="false" id="instructions">
+      <textarea class="w-full h-full p-4 text-center textarea textarea-bordered border-black" spellcheck="false" id="instructions-input">
         ADDI $a3 $zero 0x0005
         ADDI $a2 $zero 0x0007
         SUB $a1 $a2 $a3
       </textarea>
       <div class="w-full flex-flow justify-around">
+        <div class="btn" id="load-button">Load</div>
         <div class="btn" id="run-cycle-button">Run Cycle</div>
       </div>
     </div>
     <div class="w-3/5 h-fit border border-black">
       <img src="./assets/mips-single-cycle-datapath.png" class="min-w-full" id="diagram"/>
     </div>
-    <div class="w-1/5 h-1/2 border border-black">
+    <div class="w-1/5 max-h-1/2 h-1/2 border border-black">
       <div id="details" class="break-words">
 
       </div>

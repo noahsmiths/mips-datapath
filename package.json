@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.5.29",
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "mips-assembler": "^2.0.1"
   }
 }

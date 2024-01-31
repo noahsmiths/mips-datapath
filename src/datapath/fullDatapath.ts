@@ -32,9 +32,9 @@ const instructions = {
     0x4008: 0x00C72822
 }
 
-export function buildDatapath() {
+export function buildDatapath(pcInitial: number, instructions: { [key: string]: number }) {
     // Wires
-    const pcIn = new Wire(32, 0x4000);
+    const pcIn = new Wire(32, pcInitial);
     const pcOut = new Wire(32);
 
     const pcAdderIn = new Wire(32, 4);
