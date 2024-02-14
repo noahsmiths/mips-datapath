@@ -1,7 +1,7 @@
 export function numberToBinary(value: number, bits: number): string {
     let binaryString = coerceToUnsigned32BitNumber(value).toString(2);
     
-    for (let i = binaryString.length; i <= bits; i++) {
+    for (let i = binaryString.length; i < bits; i++) {
         binaryString = "0" + binaryString;
     }
     return binaryString;

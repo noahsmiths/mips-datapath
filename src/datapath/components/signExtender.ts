@@ -12,7 +12,7 @@ export class SignExtender implements Component {
     trigger(): void {
         let inputBinary = this.inputWire.getBinary();
 
-        for (let i = inputBinary.length; i <= this.outputBitCount; i++) {
+        for (let i = inputBinary.length; i < this.outputBitCount; i++) {
             inputBinary = inputBinary.charAt(0) + inputBinary;
         }
 

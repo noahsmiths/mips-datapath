@@ -31,7 +31,13 @@ export class Registers implements Component, Dumpable {
         this.outputReadReg2Wire.setValue(this.registerFile[readReg2]);
     }
     dumpData(): { [key: string]: any; } {
-        throw new Error("Method not implemented.");
+        const dict = {};
+
+        for (let i = 0; i < this.registerFile.length; i++) {
+            dict[i] = this.registerFile[i];
+        }
+
+        return dict;
     }
 
 }
