@@ -11,5 +11,6 @@ export enum OPCODES {
     OR = 0b000000,
     ORI = 0b001101,
     SLT = 0b000000,
-    SLTI = 0b001010
+    SLTI = 0b001010,
+    BNE = 0b000101,
 }

@@ -9,6 +9,7 @@ import { Dumpable } from "./components/dumpable";
 import { InstructionMemory } from "./components/instructionMemory";
 import { Joiner } from "./components/joiner";
 import { LeftShifter } from "./components/leftShifter";
+import { Or } from "./components/or";
 import { ProgramCounter } from "./components/programCounter";
 import { Registers } from "./components/registers";
 import { SignExtender } from "./components/signExtender";
@@ -57,26 +58,29 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
 
     const controlRegDst = new Wire(1);
     const controlJump = new Wire(1);
-    const controlBranch = new Wire(1);
+    const controlBeq = new Wire(1);
+    const controlBne = new Wire(1);
     const controlMemRead = new Wire(1);
     const controlMemToReg = new Wire(1);
-    const controlALUOp = new Wire(2);
     const controlMemWrite = new Wire(1);
     const controlALUSrc = new Wire(1);
     const controlRegWrite = new Wire(1);
+    const controlExtType = new Wire(1);
 
     const writeRegAddress = new Wire(5);
     const writeRegData = new Wire(32);
     const regRead1 = new Wire(32);
     const regRead2 = new Wire(32);
 
-    const aluControlOut = new Wire(4); // Might be 3 bit?
+    const aluControlOut = new Wire(4);
     const aluSrcMuxOut = new Wire(32);
     const aluResultOut = new Wire(32);
     const aluZeroOut = new Wire(1);
 
     const branchAdderOut = new Wire(32);
-    const branchAndOut = new Wire(1);
+    const branchBeqAndOut = new Wire(1);
+    const branchBneAndOut = new Wire(1);
+    const branchBeqOrBneOut = new Wire(1);
     const branchMuxOut = new Wire(32);
 
     const dataMemoryOut = new Wire(32);
@@ -96,22 +100,25 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
     const imSplicer6 = new Splicer(imOut, imOut15_0, 0, 15);
     const imSplicer7 = new Splicer(imOut, imOut5_0, 0, 5);
     const imShifter1 = new LeftShifter(imOut25_0, imOut25_0_left_shift_2, 2);
-    const imSignExtender1 = new SignExtender(imOut15_0, imOut15_0_sign_extended, 32);
+    const imSignExtender1 = new SignExtender(imOut15_0, imOut15_0_sign_extended, controlExtType, 32);
     const imShifter2 = new LeftShifter(imOut15_0_sign_extended, imOut15_0_sign_extended_left_shift_2, 2);
 
     const ja = new Joiner(pcAdderOut31_28, imOut25_0_left_shift_2, jaOut);
 
     const control = new Control(
         imOut31_26,
+        imOut5_0,
         controlRegDst,
         controlJump,
-        controlBranch,
+        controlBeq,
+        controlBne,
         controlMemRead,
         controlMemToReg,
-        controlALUOp,
+        aluControlOut,
         controlMemWrite,
         controlALUSrc,
-        controlRegWrite
+        controlRegWrite,
+        controlExtType
     );
 
     const regDstMux = new TwoToOneMux(imOut20_16, imOut15_11, controlRegDst, writeRegAddress);
@@ -127,13 +134,16 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
         registerFile
     );
 
-    const aluControl = new ALUControl(imOut5_0, controlALUOp, aluControlOut);
+    // const aluControl = new ALUControl(imOut5_0, controlALUOp, aluControlOut);
     const aluSrcMux = new TwoToOneMux(regRead2, imOut15_0_sign_extended, controlALUSrc, aluSrcMuxOut);
     const alu = new ALU(regRead1, aluSrcMuxOut, aluControlOut, aluResultOut, aluZeroOut);
 
     const branchAdder = new BaseAdder(pcAdderOut, imOut15_0_sign_extended_left_shift_2, branchAdderOut);
-    const branchAnd = new And(controlBranch, aluZeroOut, branchAndOut);
-    const branchMux = new TwoToOneMux(pcAdderOut, branchAdderOut, branchAndOut, branchMuxOut);
+    // const branchAnd = new And(controlBranch, aluZeroOut, branchAndOut);
+    const beqAnd = new And(controlBeq, aluZeroOut, branchBeqAndOut);
+    const bneAnd = new And(controlBne, aluZeroOut, branchBneAndOut, false, true);
+    const beqOrBne = new Or(branchBeqAndOut, branchBneAndOut, branchBeqOrBneOut);
+    const branchMux = new TwoToOneMux(pcAdderOut, branchAdderOut, branchBeqOrBneOut, branchMuxOut);
 
     const jumpMux = new TwoToOneMux(branchMuxOut, jaOut, controlJump, pcIn);
 
@@ -161,11 +171,12 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
         control,
         regDstMux,
         registers,
-        aluControl,
         aluSrcMux,
         alu,
         branchAdder,
-        branchAnd,
+        beqAnd,
+        bneAnd,
+        beqOrBne,
         branchMux,
         jumpMux,
         dataMemory,
@@ -202,10 +213,10 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
         jaOut,
         controlRegDst,
         controlJump,
-        controlBranch,
+        controlBeq,
+        controlBne,
         controlMemRead,
         controlMemToReg,
-        controlALUOp,
         controlMemWrite,
         controlALUSrc,
         controlRegWrite,
@@ -218,7 +229,9 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
         aluResultOut,
         aluZeroOut,
         branchAdderOut,
-        branchAndOut,
+        branchBeqAndOut,
+        branchBneAndOut,
+        branchBeqOrBneOut,
         branchMuxOut,
         dataMemoryOut,
 
