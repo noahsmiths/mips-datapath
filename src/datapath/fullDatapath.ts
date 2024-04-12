@@ -220,6 +220,7 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
         controlMemWrite,
         controlALUSrc,
         controlRegWrite,
+        controlExtType,
         writeRegAddress,
         writeRegData,
         regRead1,

@@ -21,6 +21,8 @@ loadBtn.on("click", () => {
 
         dumpables = createdDatapath.dumpables;
         runCycle = createdDatapath.runCycle;
+
+        alert("Program loaded and datapath reset. Hit the 'Run Cycle' button to start.");
     } catch (err) {
         console.error(err);
         alert("Error when trying to assemble your program. Please make sure you entered valid assembly.");

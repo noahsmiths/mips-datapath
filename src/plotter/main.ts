@@ -20,6 +20,8 @@ function insertBreak(event) {
         navigator.clipboard.writeText(JSON.stringify(calculatedCoords, null, '\t'));
     } else if (event.key === "e") {
         replayOverlay();
+        coords = [];
+        calculatedCoords = [];
     } else if (event.key === "r") {
         coords = [];
         calculatedCoords = [];
