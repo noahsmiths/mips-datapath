@@ -184,11 +184,13 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
     ];
 
     function runCycle() {
+        registers.writeValue();
+
         for (let component of componentList) {
             component.trigger();
         }
 
-        registers.writeValue();
+        // registers.writeValue(); // Having this here instead of before the loop results in writeback happening before next rising edge
     }
 
     // Dumpable
