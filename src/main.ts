@@ -2,6 +2,7 @@ import $ from 'jquery';
 import { buildDatapath } from './datapath/fullDatapath';
 import overlay from './datapath-overlay.json';
 import { assemble } from './datapath/utils/assembler';
+import binaryToMips from './scripts/instructioninfo';
 
 let { dumpables, runCycle } = buildDatapath(0, {});
 
