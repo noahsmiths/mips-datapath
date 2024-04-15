@@ -1,7 +1,7 @@
 import { assemble as mipsAssemble } from "mips-assembler";
 
 export function assemble(beginning: number, assembly: string, ): { [key: string]: number } {
-    let assemblerOutput = mipsAssemble(`.org 0x${beginning.toString(16).padStart(8, "0")}\n${assembly}`) as ArrayBuffer;
+    let assemblerOutput = mipsAssemble(`.org 0x${beginning.toString(16).padStart(8, "0")}\n${assembly.replace(/\$/g, '')}`) as ArrayBuffer;
     console.log(assemblerOutput);
     let parsedOutput = {};
 

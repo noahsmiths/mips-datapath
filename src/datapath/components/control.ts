@@ -44,7 +44,7 @@ export class Control implements Component {
             // this.branchWire.setLow();
             this.branchEqualWire.setLow();
             this.branchNotEqualWire.setLow();
-            this.ALUOpWire.setValue(ALU_FUNCT_CODES.AND);
+            this.ALUOpWire.setValue(ALU_FUNCT_CODES.ADD);
             this.ALUSrcWire.setHigh();
             this.extTypeWire.setLow();
 
