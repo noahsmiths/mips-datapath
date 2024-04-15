@@ -19,17 +19,32 @@
           <div class="btn" id="run-cycle-button">Run Cycle</div>
         </div>
       </div>
-      <div class="w-3/5 h-fit border border-black">
+      <div></div>
+      <div class="w-3/5 h-fit">
+        <div class="text-center text-2xl font-bold">Active Instruction: <span id="active-instruction"></span></div>
         <!-- <img src="./assets/mips-single-cycle-datapath.png" class="min-w-full" id="diagram"/> -->
-        <img src="./assets/mips-2.png" class="min-w-full" id="diagram"/>
+        <div class="border border-black">
+          <img src="./assets/mips-2.png" class="min-w-full" id="diagram"/>
+        </div>
       </div>
-      <div class="w-1/5 max-h-1/2 h-1/2 border border-black">
+      <div class="w-1/5 max-h-1/2 h-1/2 border border-black overflow-scroll">
         <div id="details" class="break-words">
-
+          <span id="component-title" class="font-bold"></span>
+          <table class="[&>*]:border border-collapse w-full">
+            <thead class="border">
+              <tr class="[&>*]:border">
+                <th class="border"></th><th class="border">Dec</th><th>Hex</th><th>Bin</th>
+              </tr>
+            </thead>
+            <tbody class="[&>*]:border" id="component-values"></tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
+  <script src="./scripts/instructioninfo.js"></script>
+  <script src="./scripts/helper.js"></script>
+  <script src="./scripts/hextomips.js"></script>
   <script type="module" src="main.ts"></script>
 </body>
 </html>

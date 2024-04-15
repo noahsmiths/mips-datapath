@@ -10,7 +10,9 @@ const instructionsInput = $("#instructions-input");
 const runCycleBtn = $("#run-cycle-button");
 const loadBtn = $("#load-button");
 
-const details = $("#details");
+const activeInstruction = $("#active-instruction");
+const componentTitle = $("#component-title");
+const componentValues = $("#component-values");
 const diagram = $("#diagram");
 
 loadBtn.on("click", () => {
@@ -29,7 +31,18 @@ loadBtn.on("click", () => {
     }
 });
 runCycleBtn.on("click", () => {
-    runCycle();
+    try {
+        runCycle();
+
+        const value = parseInt(dumpables['imOut'].dumpData().value).toString(2).padStart(32, '0');
+        activeInstruction.text(binaryToMips(value));
+    } catch (err) {
+        console.error(err);
+
+        if (err.message.includes('No instruction defined at given address')) {
+            activeInstruction.text('No active instruction');
+        }
+    }
 });
 diagram.on("mousemove", handleDiagramMouseOver);
 
@@ -41,7 +54,33 @@ function handleDiagramMouseOver(event) {
     const activeElement = findActiveElement(normalizedX, normalizedY);
 
     if (activeElement !== null && activeElement in dumpables) {
-        details.text(activeElement + "\n" + JSON.stringify(dumpables[activeElement].dumpData()));
+        // details.text(activeElement + "\n" + JSON.stringify(dumpables[activeElement].dumpData()));
+        componentTitle.text(activeElement);
+
+        componentValues.html("");
+        const componentData = dumpables[activeElement].dumpData();
+        for (let key in componentData) {
+            const nameData = document.createElement("td");
+            nameData.innerText = key;
+
+            const value = componentData[key];
+            const decValue = document.createElement('td');
+            decValue.innerText = value;
+
+            const hexValue = document.createElement('td');
+            hexValue.innerText = parseInt(value).toString(16);
+
+            const binValue = document.createElement('td');
+            binValue.innerText = parseInt(value).toString(2);
+
+            const dataRow = document.createElement('tr');
+            dataRow.className = "[&>*]:border";
+            dataRow.appendChild(nameData);
+            dataRow.appendChild(decValue);
+            dataRow.appendChild(hexValue);
+            dataRow.appendChild(binValue);
+            componentValues.append(dataRow);
+        }
         diagram.css("cursor", "pointer");
     } else {
         diagram.css("cursor", "unset");

@@ -19,9 +19,10 @@ export class InstructionMemory implements Component, Dumpable {
         this.outputWire.setValue(selectedInstruction);
     }
     dumpData(): { [key: string]: any; } {
-        return {
-            "instructions": this.instructions
-        };
+        // return {
+        //     "instructions": this.instructions
+        // };
+        return this.instructions;
     }
     
 }
