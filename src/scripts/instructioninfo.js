@@ -284,13 +284,13 @@ function clearText(id) {
 /* converts binary string and return a hex string */
 function binaryToHex(binaryValue){
     // if binary value is not multiple of 4, add zeros in the left
-    missingBits = binaryValue.length % 4;
-    for(i = 0; i < missingBits; i++){
+    let missingBits = binaryValue.length % 4;
+    for(let i = 0; i < missingBits; i++){
 	binaryValue = "0" + binaryValue;
     }
     
     var hexValue = "";
-    for(j = 0; j < binaryValue.length; j+=4){
+    for(let j = 0; j < binaryValue.length; j+=4){
 	if(binaryValue.substring(j,j+4).indexOf('X') === -1){
 	    hexValue = hexValue + binaryToHexTable[binaryValue.substring(j,j+4)];
 	}
@@ -352,7 +352,7 @@ function getHTMLInstructionFormatTable(bits){
     var html = "";
 
     //for each field of the instruction
-    for(j = 0; j < bits.length; j++){
+    for(let j = 0; j < bits.length; j++){
 
 	//get values of the field
 	var beginIndex = bits[j][0];
@@ -407,7 +407,7 @@ function searchInstruction(instruction){
     var symbolFound = 0;
     var instructionObject = {};
 
-    for(i = 0; i < instructions.length; i++){
+    for(let i = 0; i < instructions.length; i++){
 	if(instructions[i].symbol.replace(".", "").toUpperCase() == symbol){
 	    instructionObject = instructions[i];
 	    symbolFound = 1;
@@ -428,7 +428,7 @@ function searchInstruction(instruction){
 function displaySupportedInst() {
     var result = "<table style=\" width:300px;\"><thead><th>Supported Instructions</th></thead></table>";
     result += "<div style=\"width:300px; margin: 0 auto; overflow:auto; height:100px;\"><table><tbody>";
-    for(i = 0; i < instructions.length; i++) {
+    for(let i = 0; i < instructions.length; i++) {
 	result += "<tr>";
 	result += "<td>" + instructions[i].symbol + "</td>";
 	result += "</tr>";
@@ -443,7 +443,7 @@ function displaySupportedInst() {
 function displaySupportedReg() {
     var result = "<table style=\" width:300px;\"><thead><th>Register</th><th>Binary</th></thead></table>";
     result += "<div style=\"width:330px; margin: 0 auto; overflow:auto; height:100px;\"><table><tbody>";
-    for(i = 0; i < regNames.length; i++) {
+    for(let i = 0; i < regNames.length; i++) {
 	result += "<tr>";
 	result += "<td>" + regNames[i] + "</td>";
 	result += "<td>" + regBinary[i] + "</td>";
@@ -460,7 +460,7 @@ function searchIns(bin){
     // search funct codes
     if (opcode == "000000"){	
 	var funct = bin.substring(26,33);
-	for(i = 0; i < instructions.length; i++){
+	for(let i = 0; i < instructions.length; i++){
 	    if(instructions[i].bits[(instructions[i].bits.length)-1][3] == funct
 	       && instructions[i].bits[0][3] == opcode){
 		instructionObject = instructions[i];
@@ -471,7 +471,7 @@ function searchIns(bin){
     // else if REGIMM
     else if (opcode == "000001"){
 	var regimm = bin.substring(11,16);
-	for(i = 0; i < instructions.length; i++){
+	for(let i = 0; i < instructions.length; i++){
 	    if(instructions[i].bits.length >= 3
 	       && instructions[i].bits[2][3] == regimm
 	       && instructions[i].bits[0][3] == opcode){
@@ -482,7 +482,7 @@ function searchIns(bin){
     }
     // search opcodes
     else {
-	for(i = 0; i < instructions.length; i++){
+	for(let i = 0; i < instructions.length; i++){
 	    if(instructions[i].bits[0][3] == opcode){
 		instructionObject = instructions[i];
 		break;
@@ -560,7 +560,7 @@ function binaryToMips(bin){
 
     // build bits table for typed instruction
     var bits = [];
-    for(i = 0; i < insObj.bits.length; i++){ // for every field of the instruction
+    for(let i = 0; i < insObj.bits.length; i++){ // for every field of the instruction
 	bits[i] = [];
 	bits[i][0] = insObj.bits[i][0]; // copy starting bit
 	bits[i][1] = insObj.bits[i][1]; // copy ending bit
@@ -593,8 +593,8 @@ function binaryToMips(bin){
     var formatPieces = format.replace(/\s+/g,' ').trim().split(' ');
 
     // get the registers and immediates values and put them in an array
-    for(i = 1; i < formatPieces.length; i++){
-	for(j = 0; j < bits.length; j++){
+    for(let i = 1; i < formatPieces.length; i++){
+	for(let j = 0; j < bits.length; j++){
 	    if(insObj.bits[j][2] == formatPieces[i]){
 		if(formatPieces[i].match(/(rd|rs|rt|base)/) != null){
 		    formatPieces[i] = bits[j][2];

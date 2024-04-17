@@ -9,42 +9,53 @@
   <div id="app" class="w-full h-screen">
     <div class="w-full h-full flex justify-center items-center gap-2 p-2">
       <div class="w-1/5 h-4/5">
-        <textarea class="w-full h-full p-4 text-center textarea textarea-bordered border-black" spellcheck="false" id="instructions-input">
-          ADDI $a3 $zero 0x0005
-          ADDI $a2 $zero 0x0007
-          SUB $a1 $a2 $a3
-        </textarea>
+        <textarea class="w-full h-full p-4 textarea textarea-bordered border-black font-mono" spellcheck="false" id="instructions-input">ADDI $a3 $zero 0x0005
+ADDI $a2 $zero 0x0007
+SUB $a1 $a2 $a3</textarea>
         <div class="w-full flex-flow justify-around">
           <div class="btn" id="load-button">Load</div>
           <div class="btn" id="run-cycle-button">Run Cycle</div>
         </div>
       </div>
       <div></div>
-      <div class="w-3/5 h-fit">
+      <div class="w-4/5 h-fit flex flex-col">
         <div class="text-center text-2xl font-bold">Active Instruction: <span id="active-instruction"></span></div>
         <!-- <img src="./assets/mips-single-cycle-datapath.png" class="min-w-full" id="diagram"/> -->
-        <div class="border border-black">
-          <img src="./assets/mips-2.png" class="min-w-full" id="diagram"/>
+        <div class="border border-black flex flex-row justify-center">
+          <img src="./assets/mips-2.png" class="max-w-[90%]" id="diagram"/>
         </div>
-      </div>
-      <div class="w-1/5 max-h-1/2 h-1/2 border border-black overflow-scroll">
+        <div class="w-full max-h-1/2 h-[20vh] border border-b-black border-l-black border-r-black overflow-scroll">
         <div id="details" class="break-words">
           <span id="component-title" class="font-bold"></span>
-          <table class="[&>*]:border border-collapse w-full">
+          <table class="[&>*]:border border-collapse w-full font-mono">
             <thead class="border">
               <tr class="[&>*]:border">
-                <th class="border"></th><th class="border">Dec</th><th>Hex</th><th>Bin</th>
+                <th class="border"></th><th>Hex</th><th>Bin</th><th>Dec</th>
               </tr>
             </thead>
             <tbody class="[&>*]:border" id="component-values"></tbody>
           </table>
         </div>
       </div>
+      </div>
+      <!-- <div class="w-1/5 max-h-1/2 h-1/2 border border-black overflow-scroll">
+        <div id="details" class="break-words">
+          <span id="component-title" class="font-bold"></span>
+          <table class="[&>*]:border border-collapse w-full">
+            <thead class="border">
+              <tr class="[&>*]:border">
+                <th class="border"></th><th>Hex</th><th>Bin</th><th>Dec</th>
+              </tr>
+            </thead>
+            <tbody class="[&>*]:border" id="component-values"></tbody>
+          </table>
+        </div>
+      </div> -->
     </div>
   </div>
-  <script src="./scripts/instructioninfo.js"></script>
+  <!-- <script src="./scripts/instructioninfo.js"></script>
   <script src="./scripts/helper.js"></script>
-  <script src="./scripts/hextomips.js"></script>
+  <script src="./scripts/hextomips.js"></script> -->
   <script type="module" src="main.ts"></script>
 </body>
 </html>

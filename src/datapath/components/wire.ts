@@ -46,4 +46,7 @@ export class Wire implements Dumpable {
             "value": this.getValue()
         };
     }
+    getBitSize(): number {
+        return this.bitSize;
+    }
 }

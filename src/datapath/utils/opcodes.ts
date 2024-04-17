@@ -1,5 +1,5 @@
 export enum OPCODES {
-    LW = 0b100000,
+    LW = 0b100011,
     SW = 0b101011,
     BEQ = 0b000100,
     J = 0b000010,

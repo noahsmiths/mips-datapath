@@ -185,6 +185,7 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
 
     function runCycle() {
         registers.writeValue();
+        dataMemory.writeValue();
 
         for (let component of componentList) {
             component.trigger();

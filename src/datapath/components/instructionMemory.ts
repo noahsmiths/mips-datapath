@@ -1,3 +1,4 @@
+import { numberToHex } from "../utils/convert";
 import { Component } from "./component";
 import { Dumpable } from "./dumpable";
 import { Wire } from "./wire";
@@ -22,7 +23,14 @@ export class InstructionMemory implements Component, Dumpable {
         // return {
         //     "instructions": this.instructions
         // };
-        return this.instructions;
+        const formattedData = {};
+        for (const instruction in this.instructions) {
+            let key = "0x" + numberToHex(parseInt(instruction), 32);
+            formattedData[key] = this.instructions[instruction];
+        }
+        return formattedData;
     }
-    
+    getBitSize(): number {
+        return 32;
+    }
 }

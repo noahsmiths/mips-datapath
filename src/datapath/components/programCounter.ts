@@ -26,5 +26,7 @@ export class ProgramCounter implements Component, Dumpable {
             "PC": this.pcValue
         };
     }
-    
+    getBitSize(): number {
+        return 32;
+    }
 }

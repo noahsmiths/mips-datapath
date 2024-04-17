@@ -1,4 +1,4 @@
-import { coerceToUnsigned32BitNumber, numberToBinary } from "../utils/convert";
+import { coerceToSigned32BitNumber, coerceToUnsigned32BitNumber, numberToBinary } from "../utils/convert";
 import { ALU_FUNCT_CODES } from "../utils/functCodes";
 import { Component } from "./component";
 import { Wire } from "./wire";
@@ -36,7 +36,7 @@ export class ALU implements Component {
                 this.outputWire.setValue(or);
                 break;
             case ALU_FUNCT_CODES.SLT:
-                this.outputWire.setValue(inputA < inputB ? 1 : 0);
+                this.outputWire.setValue(coerceToSigned32BitNumber(inputA) < coerceToSigned32BitNumber(inputB) ? 1 : 0);
                 break;
             default:
                 throw new Error(`ALU Control Code ${numberToBinary(controlCode, 4)} is invalid.`);

@@ -3,6 +3,7 @@ import { buildDatapath } from './datapath/fullDatapath';
 import overlay from './datapath-overlay.json';
 import { assemble } from './datapath/utils/assembler';
 import binaryToMips from './scripts/instructioninfo';
+import { numberToBinary, numberToHex } from './datapath/utils/convert';
 
 let { dumpables, runCycle } = buildDatapath(0, {});
 
@@ -19,7 +20,7 @@ const diagram = $("#diagram");
 loadBtn.on("click", () => {
     try {
         const beginningOffset = 0x00004000;
-        const assembly = assemble(beginningOffset, (instructionsInput.val() as string).trim());
+        const assembly = assemble(beginningOffset, (instructionsInput.val() as string).trim().replace(/\$0/g, '$zero'));
         const createdDatapath = buildDatapath(beginningOffset, assembly);
 
         dumpables = createdDatapath.dumpables;
@@ -37,6 +38,9 @@ runCycleBtn.on("click", () => {
 
         const value = parseInt(dumpables['imOut'].dumpData().value).toString(2).padStart(32, '0');
         activeInstruction.text(binaryToMips(value));
+
+        componentTitle.text("");
+        componentValues.html("");
     } catch (err) {
         console.error(err);
 
@@ -46,6 +50,15 @@ runCycleBtn.on("click", () => {
     }
 });
 diagram.on("mousemove", handleDiagramMouseOver);
+diagram.on("mouseenter", () => {
+    diagram.off("mousemove", handleDiagramMouseOver);
+    diagram.on("mousemove", handleDiagramMouseOver);
+});
+diagram.on("click", (event) => {
+    diagram.off("mousemove", handleDiagramMouseOver);
+    handleDiagramMouseOver(event);
+    diagram.css("cursor", "unset");
+});
 
 function handleDiagramMouseOver(event) {
     const diagramOffset = diagram.offset()!;
@@ -59,7 +72,8 @@ function handleDiagramMouseOver(event) {
         componentTitle.text(activeElement);
 
         componentValues.html("");
-        const componentData = dumpables[activeElement].dumpData();
+        const component = dumpables[activeElement];
+        const componentData = component.dumpData();
         for (let key in componentData) {
             const nameData = document.createElement("td");
             nameData.innerText = key;
@@ -69,17 +83,17 @@ function handleDiagramMouseOver(event) {
             decValue.innerText = value;
 
             const hexValue = document.createElement('td');
-            hexValue.innerText = parseInt(value).toString(16);
+            hexValue.innerText = "0x" + numberToHex(value, component.getBitSize());
 
             const binValue = document.createElement('td');
-            binValue.innerText = parseInt(value).toString(2);
+            binValue.innerText = "0b" + numberToBinary(value, component.getBitSize());
 
             const dataRow = document.createElement('tr');
             dataRow.className = "[&>*]:border";
             dataRow.appendChild(nameData);
-            dataRow.appendChild(decValue);
             dataRow.appendChild(hexValue);
             dataRow.appendChild(binValue);
+            dataRow.appendChild(decValue);
             componentValues.append(dataRow);
         }
         diagram.css("cursor", "pointer");

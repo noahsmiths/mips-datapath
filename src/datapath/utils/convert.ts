@@ -22,3 +22,8 @@ export function coerceToSigned32BitNumber(value: number): number {
 export function coerceToUnsigned32BitNumber(value: number): number {
     return value >>> 0;
 }
+
+export function numberToHex(value: number, bits: number): string {
+    let hexString = value.toString(16).toUpperCase().padStart(Math.ceil(bits / 4), "0");
+    return hexString;
+}
