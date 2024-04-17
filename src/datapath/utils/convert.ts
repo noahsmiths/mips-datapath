@@ -1,10 +1,15 @@
 export function numberToBinary(value: number, bits: number): string {
     let binaryString = coerceToUnsigned32BitNumber(value).toString(2);
-    
+
     for (let i = binaryString.length; i < bits; i++) {
         binaryString = "0" + binaryString;
     }
     return binaryString;
+}
+
+export function signExtend(value: string, bits: number) {
+    const padChar = value.charAt(0);
+    return value.padStart(bits, padChar);
 }
 
 export function binaryToUnsigned32BitNumber(value: string): number {

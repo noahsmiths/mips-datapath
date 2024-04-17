@@ -3,7 +3,7 @@ import { buildDatapath } from './datapath/fullDatapath';
 import overlay from './datapath-overlay.json';
 import { assemble } from './datapath/utils/assembler';
 import binaryToMips from './scripts/instructioninfo';
-import { coerceToSigned32BitNumber, numberToBinary, numberToHex } from './datapath/utils/convert';
+import { binaryToSigned32BitNumber, numberToBinary, numberToHex, signExtend } from './datapath/utils/convert';
 
 let { dumpables, runCycle } = buildDatapath(0, {});
 let activeElement: string | null = null;
@@ -96,7 +96,7 @@ function displayElementData(element: string | null) {
 
         const value = componentData[key];
         const decValue = document.createElement('td');
-        decValue.innerText = coerceToSigned32BitNumber(value).toString();
+        decValue.innerText = binaryToSigned32BitNumber(signExtend(numberToBinary(value, component.getBitSize()), 32)).toString();
 
         const hexValue = document.createElement('td');
         hexValue.innerText = "0x" + numberToHex(value, component.getBitSize());
