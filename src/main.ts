@@ -6,6 +6,7 @@ import binaryToMips from './scripts/instructioninfo';
 import { numberToBinary, numberToHex } from './datapath/utils/convert';
 
 let { dumpables, runCycle } = buildDatapath(0, {});
+let activeElement: string | null = null;
 
 const instructionsInput = $("#instructions-input");
 
@@ -26,6 +27,8 @@ loadBtn.on("click", () => {
         dumpables = createdDatapath.dumpables;
         runCycle = createdDatapath.runCycle;
 
+        componentTitle.text("");
+        componentValues.html("");
         alert("Program loaded and datapath reset. Hit the 'Run Cycle' button to start.");
     } catch (err) {
         console.error(err);
@@ -48,6 +51,8 @@ runCycleBtn.on("click", () => {
             activeInstruction.text('No active instruction');
         }
     }
+
+    displayElementData(activeElement);
 });
 diagram.on("mousemove", handleDiagramMouseOver);
 diagram.on("mouseenter", () => {
@@ -65,40 +70,45 @@ function handleDiagramMouseOver(event) {
     const normalizedX = (window.scrollX + event.clientX - diagramOffset.left) / (diagram.width()!);
     const normalizedY = (window.scrollY + event.clientY - diagramOffset.top) / (diagram.height()!);
 
-    const activeElement = findActiveElement(normalizedX, normalizedY);
+    activeElement = findActiveElement(normalizedX, normalizedY);
+    displayElementData(activeElement);
 
     if (activeElement !== null && activeElement in dumpables) {
-        // details.text(activeElement + "\n" + JSON.stringify(dumpables[activeElement].dumpData()));
-        componentTitle.text(activeElement);
-
-        componentValues.html("");
-        const component = dumpables[activeElement];
-        const componentData = component.dumpData();
-        for (let key in componentData) {
-            const nameData = document.createElement("td");
-            nameData.innerText = key;
-
-            const value = componentData[key];
-            const decValue = document.createElement('td');
-            decValue.innerText = value;
-
-            const hexValue = document.createElement('td');
-            hexValue.innerText = "0x" + numberToHex(value, component.getBitSize());
-
-            const binValue = document.createElement('td');
-            binValue.innerText = "0b" + numberToBinary(value, component.getBitSize());
-
-            const dataRow = document.createElement('tr');
-            dataRow.className = "[&>*]:border";
-            dataRow.appendChild(nameData);
-            dataRow.appendChild(hexValue);
-            dataRow.appendChild(binValue);
-            dataRow.appendChild(decValue);
-            componentValues.append(dataRow);
-        }
         diagram.css("cursor", "pointer");
     } else {
         diagram.css("cursor", "unset");
+    }
+}
+
+function displayElementData(element: string | null) {
+    if (element === null || !(element in dumpables)) return;
+
+    componentTitle.text(element);
+    componentValues.html("");
+
+    const component = dumpables[element];
+    const componentData = component.dumpData();
+    for (let key in componentData) {
+        const nameData = document.createElement("td");
+        nameData.innerText = key;
+
+        const value = componentData[key];
+        const decValue = document.createElement('td');
+        decValue.innerText = value;
+
+        const hexValue = document.createElement('td');
+        hexValue.innerText = "0x" + numberToHex(value, component.getBitSize());
+
+        const binValue = document.createElement('td');
+        binValue.innerText = "0b" + numberToBinary(value, component.getBitSize());
+
+        const dataRow = document.createElement('tr');
+        dataRow.className = "[&>*]:border";
+        dataRow.appendChild(nameData);
+        dataRow.appendChild(hexValue);
+        dataRow.appendChild(binValue);
+        dataRow.appendChild(decValue);
+        componentValues.append(dataRow);
     }
 }
 
