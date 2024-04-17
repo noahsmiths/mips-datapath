@@ -33,7 +33,7 @@ loadBtn.on("click", () => {
         alert("Program loaded and datapath reset. Hit the 'Run Cycle' button to start.");
     } catch (err) {
         console.error(err);
-        alert("Error when trying to assemble your program. Please make sure you entered valid assembly.");
+        alert("********ERROR********\n An error occured when trying to assemble your program. Please make sure you entered valid assembly and try again.");
     }
 });
 runCycleBtn.on("click", () => {
