@@ -3,7 +3,7 @@ import { buildDatapath } from './datapath/fullDatapath';
 import overlay from './datapath-overlay.json';
 import { assemble } from './datapath/utils/assembler';
 import binaryToMips from './scripts/instructioninfo';
-import { numberToBinary, numberToHex } from './datapath/utils/convert';
+import { coerceToSigned32BitNumber, numberToBinary, numberToHex } from './datapath/utils/convert';
 
 let { dumpables, runCycle } = buildDatapath(0, {});
 let activeElement: string | null = null;
@@ -29,10 +29,11 @@ loadBtn.on("click", () => {
 
         componentTitle.text("");
         componentValues.html("");
-        activeInstruction.text("");
+        activeInstruction.text("Ready to run");
         alert("Program loaded and datapath reset. Hit the 'Run Cycle' button to start.");
     } catch (err) {
         console.error(err);
+        activeInstruction.text("Error assembling");
         alert("********ERROR********\n An error occured when trying to assemble your program. Please make sure you entered valid assembly and try again.");
     }
 });
@@ -95,7 +96,7 @@ function displayElementData(element: string | null) {
 
         const value = componentData[key];
         const decValue = document.createElement('td');
-        decValue.innerText = value;
+        decValue.innerText = coerceToSigned32BitNumber(value).toString();
 
         const hexValue = document.createElement('td');
         hexValue.innerText = "0x" + numberToHex(value, component.getBitSize());
