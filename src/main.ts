@@ -29,6 +29,7 @@ loadBtn.on("click", () => {
 
         componentTitle.text("");
         componentValues.html("");
+        activeInstruction.text("");
         alert("Program loaded and datapath reset. Hit the 'Run Cycle' button to start.");
     } catch (err) {
         console.error(err);
