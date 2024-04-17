@@ -17,7 +17,6 @@ import { Splicer } from "./components/splicer";
 import { TwoToOneMux } from "./components/twoToOneMux";
 import { Wire } from "./components/wire";
 
-const registerFile = new Array(32).fill(0);
 // registerFile[7] = 5;
 // 
 // const instructions = {
@@ -130,8 +129,7 @@ export function buildDatapath(pcInitial: number, instructions: { [key: string]: 
         writeRegData,
         controlRegWrite,
         regRead1,
-        regRead2,
-        registerFile
+        regRead2
     );
 
     // const aluControl = new ALUControl(imOut5_0, controlALUOp, aluControlOut);
